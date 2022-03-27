@@ -3,7 +3,7 @@ package net.chess.piece
 import net.chess.Board
 import org.junit.jupiter.api.BeforeEach
 
-abstract class AbstractPawnTest {
+abstract class AbstractPieceTest {
 
     protected val messages = mutableListOf<String>()
 

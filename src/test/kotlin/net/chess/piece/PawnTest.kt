@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import java.math.BigDecimal
 
-internal class PawnTest: AbstractPawnTest() {
+internal class PawnTest: AbstractPieceTest() {
 
 
     @Test
