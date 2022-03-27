@@ -252,6 +252,7 @@ internal class PawnTest {
             }
         )
 
+        pawn.availableActions()
         assertEquals(board.containsValue(pawn), true)
         assertEquals(board.containsValue(pawn2), true)
 
@@ -267,7 +268,6 @@ internal class PawnTest {
 
         assertEquals(board.containsValue(queen), true)
         assertEquals(board.containsValue(rook), true)
-
 
     }
 

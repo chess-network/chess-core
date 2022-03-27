@@ -5,7 +5,7 @@ plugins {
     application
 }
 
-group = "me.dito"
+group = "net.chess"
 version = "1.0-SNAPSHOT"
 
 repositories {
