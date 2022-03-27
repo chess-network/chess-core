@@ -17,24 +17,24 @@ class Rook(
         fun move(board: Board, position: Pair<Int, Int>): List<Pair<Int, Int>> {
 
             var (bottom, top) = minMax(board, position, true)
-            top--
             bottom++
+            top--
 
-            var (right, left) = minMax(board, position, false)
-            left--
-            right++
+            var (left, right) = minMax(board, position, false)
+            left++
+            right--
 
 
             val verticalMoves = IntStream.range(1, 9).mapToObj {
                 position.first to it
             }.toList().filter {
-                it.second in bottom..top
+                it != position && it.second in bottom..top
             }
 
             val horizontalMoves = IntStream.range(1, 9).mapToObj {
                 it to position.second
             }.toList().filter {
-                it.first in left..right
+                it != position && it.first in left..right
             }
             return horizontalMoves + verticalMoves
         }
@@ -44,21 +44,34 @@ class Rook(
             position: Pair<Int, Int>,
             vertical: Boolean
         ): Pair<Int, Int> {
-            val line = board.keys.groupBy {
-                if (vertical) position.second else position.first
-            }.flatMap { it.value }.filterNot {
+            val line = board.keys.filter {
+                if (vertical) (it.first == position.first) else (it.second == position.second)
+            }.filterNot {
                 if (vertical) {
-                    it.first == position.first
-                } else {
                     it.second == position.second
+                } else {
+                    it.first == position.first
                 }
             }
-            val max = line.maxOfOrNull {
-                if (vertical) it.second else it.first
+            val ints = line.map {
+                if (vertical)
+                    it.second
+                else
+                    it.first
             }
-            val min = line.minOfOrNull { if (vertical) it.second else it.first }
-            return (min ?: 0) to (max ?: 9)
+            var min = ints.minOrNull() ?: 0
+            var max = ints.maxOrNull() ?: 9
+            if (min == max) {
+                val number = if (vertical) position.second else position.first
+                if (min < number)
+                    max = 9
+                else
+                    min = 0
+            }
+
+            return min to max
         }
+
 
     }
 
