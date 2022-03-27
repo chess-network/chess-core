@@ -13,7 +13,5 @@ class Bishop(
         TODO("Not yet implemented")
     }
 
-    override fun executeAction(action: Action) {
-        TODO("Not yet implemented")
-    }
+
 }

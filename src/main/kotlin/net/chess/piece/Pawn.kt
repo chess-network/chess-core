@@ -117,33 +117,5 @@ class Pawn(
         return moves + captures + enPassant + promotion
     }
 
-    override fun executeAction(action: Action) {
-        validateAction(action)
 
-        @Suppress("NON_EXHAUSTIVE_WHEN")
-        when (action.type) {
-            ActionType.MOVE -> board.move(position, action.position)
-            ActionType.CAPTURE -> {
-
-                if (action.target == null)
-                    throw IllegalArgumentException("Target is null")
-
-                board.remove(action.target.position)
-                board.move(position, action.position)
-            }
-            ActionType.EN_PASSANT -> {
-
-                if (action.target == null)
-                    throw IllegalArgumentException("Target is null")
-
-                board.remove(action.target.position)
-                board.move(position, action.position)
-            }
-            ActionType.PROMOTION -> {
-                board.remove(position)
-                board[action.position] = action.target
-            }
-        }
-        history.add(History(action))
-    }
 }
