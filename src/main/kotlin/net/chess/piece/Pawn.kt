@@ -2,6 +2,7 @@ package net.chess.piece
 
 import net.chess.*
 
+
 class Pawn(
     color: PieceColor,
     position: Pair<Int, Int>,
@@ -9,25 +10,25 @@ class Pawn(
 ) : AbstractPiece(color, position, board) {
 
     companion object {
-        fun move(position: Pair<Int, Int>, color: PieceColor): Pair<Int, Int> {
+        fun move(position: Pair<Int, Int>, color: PieceColor): Pair<Int, Int>? {
             return if (color == PieceColor.WHITE) {
-                if (position.second == 8)
-                    position
+                if (position.second in 7..8)
+                    null
                 else Pair(position.first, position.second + 1)
             } else
-                if (position.second == 1)
-                    position
+                if (position.second in 1..2)
+                    null
                 else Pair(position.first, position.second - 1)
         }
 
-        fun doubleMove(position: Pair<Int, Int>, color: PieceColor): Pair<Int, Int> {
+        fun doubleMove(position: Pair<Int, Int>, color: PieceColor): Pair<Int, Int>? {
             return if (color == PieceColor.WHITE) {
                 if (position.second != 2)
-                    position
+                    null
                 else Pair(position.first, position.second + 2)
             } else
                 if (position.second != 7)
-                    position
+                    null
                 else Pair(position.first, position.second - 2)
         }
 
@@ -44,13 +45,11 @@ class Pawn(
     }
 
 
-
-
     override fun availableActions(): List<Action> {
         val moves = (if (history.isEmpty())
-            listOf(move(position, color), doubleMove(position, color))
+            listOfNotNull(move(position, color), doubleMove(position, color))
         else
-            listOf(move(position, color)))
+            listOfNotNull(move(position, color)))
             .filter {
                 !board.containsKey(it)
             }.map {
@@ -105,13 +104,13 @@ class Pawn(
             if (position.second == 2 && color == PieceColor.BLACK) -1 else if (position.second == 7 && color == PieceColor.WHITE) 1 else 0
 
         val promotion = if (promotionCondition != 0) {
-            val newPosition = (position.first + promotionCondition) to position.second
+            val newPosition = position.first to (position.second + promotionCondition)
 
             listOf(
-                Action(newPosition, ActionType.PROMOTION, Queen(color, position, board)),
-                Action(newPosition, ActionType.PROMOTION, Rook(color, position, board)),
-                Action(newPosition, ActionType.PROMOTION, Bishop(color, position, board)),
-                Action(newPosition, ActionType.PROMOTION, Knight(color, position, board))
+                Action(newPosition, ActionType.PROMOTION, Queen(color, newPosition, board)),
+                Action(newPosition, ActionType.PROMOTION, Rook(color, newPosition, board)),
+                Action(newPosition, ActionType.PROMOTION, Bishop(color, newPosition, board)),
+                Action(newPosition, ActionType.PROMOTION, Knight(color, newPosition, board))
             )
         } else emptyList()
 
@@ -120,22 +119,29 @@ class Pawn(
 
     override fun executeAction(action: Action) {
         validateAction(action)
+
+        @Suppress("NON_EXHAUSTIVE_WHEN")
         when (action.type) {
             ActionType.MOVE -> board.move(position, action.position)
             ActionType.CAPTURE -> {
-                board.remove(action.position)
+
+                if (action.target == null)
+                    throw IllegalArgumentException("Target is null")
+
+                board.remove(action.target.position)
                 board.move(position, action.position)
             }
             ActionType.EN_PASSANT -> {
-                board.remove(action.position)
+
+                if (action.target == null)
+                    throw IllegalArgumentException("Target is null")
+
+                board.remove(action.target.position)
                 board.move(position, action.position)
             }
             ActionType.PROMOTION -> {
                 board.remove(position)
                 board[action.position] = action.target
-            }
-            else -> {
-                throw IllegalArgumentException("Action type not supported")
             }
         }
         history.add(History(action))

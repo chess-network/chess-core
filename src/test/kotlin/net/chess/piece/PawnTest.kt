@@ -181,4 +181,95 @@ internal class PawnTest {
         )
     }
 
+    @Test
+    fun enPassant() {
+        val pawn = Pawn(PieceColor.WHITE, 5 to 5, board)
+        pawn.appear()
+
+        val pawn2 = Pawn(PieceColor.BLACK, 4 to 7, board)
+        pawn2.appear()
+        pawn2.executeAction(Action(4 to 5, ActionType.MOVE, null))
+        assertEquals(board.containsValue(pawn2), true)
+
+        val actions = pawn.availableActions()
+        assertEquals(
+            listOf(
+                Action(5 to 6, ActionType.MOVE, null),
+                Action(4 to 6, ActionType.EN_PASSANT, pawn2)
+            ),
+            actions
+        )
+        val action = actions.first {
+            it.position == 4 to 6
+        }
+        pawn.executeAction(action)
+
+        assertEquals(
+            listOf(
+                Action(4 to 7, ActionType.MOVE, null)
+            ),
+            pawn.availableActions()
+        )
+        assertEquals(board.containsValue(pawn2), false)
+    }
+
+    @Test
+    fun promotion() {
+
+        val pawn = Pawn(PieceColor.WHITE, 3 to 7, board)
+        pawn.appear()
+
+        val pawn2 = Pawn(PieceColor.BLACK, 5 to 2, board)
+        pawn2.appear()
+
+        assertAll(
+            { assert(pawn.availableActions().size == 4) },
+            {
+                assert(
+                    pawn.availableActions()
+                        .all { it.type == ActionType.PROMOTION && it.position == 3 to 8 && it.target != null })
+            },
+            {
+                assertEquals(
+                    pawn.availableActions().map { it.target!!.javaClass.kotlin.simpleName },
+                    listOf("Queen", "Rook", "Bishop", "Knight")
+                )
+            }
+        )
+
+        assertAll(
+            { assert(pawn2.availableActions().size == 4) },
+            {
+                assert(
+                    pawn2.availableActions()
+                        .all { it.type == ActionType.PROMOTION && it.position == 5 to 1 && it.target != null })
+            },
+            {
+                assertEquals(
+                    pawn2.availableActions().map { it.target!!.javaClass.kotlin.simpleName },
+                    listOf("Queen", "Rook", "Bishop", "Knight")
+                )
+            }
+        )
+
+        assertEquals(board.containsValue(pawn), true)
+        assertEquals(board.containsValue(pawn2), true)
+
+        val queen = Queen(PieceColor.WHITE, 3 to 8, board)
+        pawn.executeAction(Action(3 to 8, ActionType.PROMOTION, queen))
+
+        val rook = Rook(PieceColor.BLACK, 5 to 1, board)
+        pawn2.executeAction(Action(5 to 1, ActionType.PROMOTION, rook))
+
+
+        assertEquals(board.containsValue(pawn), false)
+        assertEquals(board.containsValue(pawn2), false)
+
+        assertEquals(board.containsValue(queen), true)
+        assertEquals(board.containsValue(rook), true)
+
+
+    }
+
+
 }
