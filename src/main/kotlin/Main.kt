@@ -1,17 +1,16 @@
 import net.chess.Board
-import net.chess.piece.Pawn
 import net.chess.PieceColor
+import net.chess.piece.Knight
 
 fun main(args: Array<String>) {
     val board = Board(
         {key, value -> println("Put $key: $value")},
         {key, value -> println("Delete $key: $value")}
     )
-    val pawn = Pawn(PieceColor.WHITE, 1 to 2, board)
-    val availableActions = pawn.availableActions()
 
-    val action = availableActions[1]
-    pawn.executeAction(action)
+    val knight = Knight(PieceColor.BLACK, 4 to 4, board)
+    knight.appear()
+    println(knight.availableActions())
 
 
 }
