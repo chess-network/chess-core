@@ -18,21 +18,33 @@ class Bishop(
 
         while(++x in 1..8 && ++y in 1..8){
             checkMove(x to y)?.let { availableActions.add(it) }
+            if(board[x to y] != null){
+                break
+            }
         }
         x = position.first
         y = position.second
         while(--x in 1..8 && ++y in 1..8){
             checkMove(x to y)?.let { availableActions.add(it) }
+            if(board[x to y] != null){
+                break
+            }
         }
         x = position.first
         y = position.second
         while(++x in 1..8 && --y in 1..8){
             checkMove(x to y)?.let { availableActions.add(it) }
+            if(board[x to y] != null){
+                break
+            }
         }
         x = position.first
         y = position.second
         while(--x in 1..8 && --y in 1..8){
             checkMove(x to y)?.let { availableActions.add(it) }
+            if(board[x to y] != null){
+                break
+            }
         }
         return availableActions
     }

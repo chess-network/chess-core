@@ -133,13 +133,7 @@ internal class BishopTest : AbstractPieceTest() {
         val actions = bishop.availableActions()
         Assertions.assertEquals(
             listOf(
-                Action(2 to 2, ActionType.CAPTURE, bishop2),
-                Action(3 to 3, ActionType.MOVE, null),
-                Action(4 to 4, ActionType.MOVE, null),
-                Action(5 to 5, ActionType.MOVE, null),
-                Action(6 to 6, ActionType.MOVE, null),
-                Action(7 to 7, ActionType.MOVE, null),
-                Action(8 to 8, ActionType.MOVE, null),
+                Action(2 to 2, ActionType.CAPTURE, bishop2)
             ),
             actions
         )
@@ -190,12 +184,6 @@ internal class BishopTest : AbstractPieceTest() {
         Assertions.assertEquals(
             listOf(
                 Action(2 to 2, ActionType.CAPTURE, bishop2),
-                Action(3 to 3, ActionType.MOVE, null),
-                Action(4 to 4, ActionType.MOVE, null),
-                Action(5 to 5, ActionType.MOVE, null),
-                Action(6 to 6, ActionType.MOVE, null),
-                Action(7 to 7, ActionType.MOVE, null),
-                Action(8 to 8, ActionType.MOVE, null),
             ),
             actions
         )
