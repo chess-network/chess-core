@@ -8,27 +8,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import java.math.BigDecimal
 
-internal class PawnTest {
-
-
-    private val messages = mutableListOf<String>()
-
-    private val board = Board(
-        { key, value ->
-            messages.add("Put $key: ${value.color} ${value.javaClass.kotlin.simpleName}")
-        },
-        { key, value ->
-            if (value != null) {
-                messages.add("Remove $key: ${value.color} ${value.javaClass.kotlin.simpleName}")
-            }
-        },
-    )
-
-    @BeforeEach
-    fun setUp() {
-        board.clear()
-
-    }
+internal class PawnTest: AbstractPawnTest() {
 
 
     @Test
