@@ -6,10 +6,10 @@ import net.chess.enums.PieceType
 import java.util.*
 
 class Board(
-    val onPut: (key: Pair<Int, Int>, value: AbstractPiece) -> (Unit) = { _, _ -> },
-    val onRemove: (key: Pair<Int, Int>, value: AbstractPiece?) -> (Unit) = { _, _ -> }
+    private val onPut: (key: Pair<Int, Int>, value: AbstractPiece) -> (Unit) = { _, _ -> },
+    private val onRemove: (key: Pair<Int, Int>, value: AbstractPiece?) -> (Unit) = { _, _ -> },
+    private val onAction: (action: Action) -> (Unit) = { _ -> }
 ) : Hashtable<Pair<Int, Int>, AbstractPiece>() {
-
 
 
     private val pieceNumber = hashMapOf<String, Int>()
@@ -72,6 +72,10 @@ class Board(
             }
         }
         println()
+    }
+
+    fun showAction(action: Action) {
+        onAction(action)
     }
 
 

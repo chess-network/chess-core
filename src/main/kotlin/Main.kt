@@ -19,30 +19,8 @@ fun main(args: Array<String>) {
     knight.appear()
     knight2.appear()
     board.print()
-    var mainCommand = ""
 
 
-    while (mainCommand != "END") {
-        print("Enter command: ")
-        val input = readLine()!!
-        val commands = input.split(" ")
-        mainCommand = commands[0]
-        when(mainCommand){
-            "GET" -> {
-                val selectedSquare = commands[1]
-                val pair = Board.squareToPair(selectedSquare)
-                val piece = board[pair]
-                if(piece != null){
-                    piece.availableActions().forEach {
-                        println(Action.actionToCode(it))
-                    }
-                }
-                else{
-                    println("No piece on this square")
-                }
-            }
-        }
-    }
 
 
 }

@@ -4,5 +4,4 @@ enum class CommandType {
     ADD,
     GET,
     ACT,
-    EXE,
 }
