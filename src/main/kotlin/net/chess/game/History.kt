@@ -1,4 +1,4 @@
-package net.chess
+package net.chess.game
 
 import java.time.LocalDateTime
 

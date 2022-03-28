@@ -1,7 +1,6 @@
 package net.chess.piece
 
-import net.chess.Board
-import org.junit.jupiter.api.BeforeEach
+import net.chess.game.Board
 
 abstract class AbstractPieceTest {
 

@@ -1,7 +1,4 @@
-import net.chess.Action
-import net.chess.Board
-import net.chess.command.CommandFactory
-import net.chess.enums.CommandType
+import net.chess.game.Board
 import net.chess.enums.PieceColor
 import net.chess.piece.Knight
 

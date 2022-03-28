@@ -1,4 +1,4 @@
-package net.chess
+package net.chess.game
 
 import net.chess.enums.ActionType
 import net.chess.piece.AbstractPiece

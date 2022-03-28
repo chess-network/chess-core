@@ -1,7 +1,7 @@
 package net.chess.command
 
-import net.chess.Action
-import net.chess.Board
+import net.chess.game.Action
+import net.chess.game.Board
 import net.chess.enums.ActionType
 import net.chess.enums.CommandType
 import net.chess.enums.PieceColor

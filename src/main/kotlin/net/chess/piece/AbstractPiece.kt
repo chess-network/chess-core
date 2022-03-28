@@ -1,9 +1,11 @@
 package net.chess.piece
 
-import net.chess.*
 import net.chess.enums.ActionType
 import net.chess.enums.PieceColor
 import net.chess.enums.PieceType
+import net.chess.game.Action
+import net.chess.game.Board
+import net.chess.game.History
 
 abstract class AbstractPiece(
     val color: PieceColor,

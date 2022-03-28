@@ -1,8 +1,8 @@
 package net.chess.piece
 
-import net.chess.*
 import net.chess.enums.ActionType
 import net.chess.enums.PieceColor
+import net.chess.game.Action
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*

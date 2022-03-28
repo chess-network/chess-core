@@ -1,8 +1,8 @@
 package net.chess.piece
 
-import net.chess.Action
+import net.chess.game.Action
 import net.chess.enums.ActionType
-import net.chess.Board
+import net.chess.game.Board
 import net.chess.enums.PieceColor
 import net.chess.enums.PieceType
 
