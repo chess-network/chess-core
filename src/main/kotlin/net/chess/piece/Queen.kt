@@ -11,7 +11,76 @@ class Queen(
     board: Board
 ) : AbstractPiece(color, position, board, PieceType.QUEEN) {
     override fun availableActions(): List<Action> {
-        TODO("Not yet implemented")
+        val availableActions: MutableList<Action> = mutableListOf()
+        var x = position.first
+        var y = position.second
+
+        while(++x in 1..8 && ++y in 1..8){
+            checkMove(x to y)?.let { availableActions.add(it) }
+            if(board[x to y] != null){
+                break
+            }
+        }
+        x = position.first
+        y = position.second
+        while(--x in 1..8 && ++y in 1..8){
+            checkMove(x to y)?.let { availableActions.add(it) }
+            if(board[x to y] != null){
+                break
+            }
+        }
+        x = position.first
+        y = position.second
+        while(++x in 1..8 && --y in 1..8){
+            checkMove(x to y)?.let { availableActions.add(it) }
+            if(board[x to y] != null){
+                break
+            }
+        }
+        x = position.first
+        y = position.second
+        while(--x in 1..8 && --y in 1..8){
+            checkMove(x to y)?.let { availableActions.add(it) }
+            if(board[x to y] != null){
+                break
+            }
+        }
+
+        x = position.first
+        y = position.second
+        while(++x in 1..8 && y in 1..8){
+            checkMove(x to y)?.let { availableActions.add(it) }
+            if(board[x to y] != null){
+                break
+            }
+        }
+        x = position.first
+        y = position.second
+        while(--x in 1..8 && y in 1..8){
+            checkMove(x to y)?.let { availableActions.add(it) }
+            if(board[x to y] != null){
+                break
+            }
+        }
+        x = position.first
+        y = position.second
+        while(x in 1..8 && ++y in 1..8){
+            checkMove(x to y)?.let { availableActions.add(it) }
+            if(board[x to y] != null){
+                break
+            }
+        }
+        x = position.first
+        y = position.second
+        while(x in 1..8 && --y in 1..8){
+            checkMove(x to y)?.let { availableActions.add(it) }
+            if(board[x to y] != null){
+                break
+            }
+        }
+
+
+        return availableActions
     }
 
 
