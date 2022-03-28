@@ -1,8 +1,8 @@
 package net.chess.piece
 
 import net.chess.Action
-import net.chess.ActionType
-import net.chess.PieceColor
+import net.chess.enums.ActionType
+import net.chess.enums.PieceColor
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -16,26 +16,26 @@ internal class KnightTest: AbstractPieceTest() {
         val availableActions = knight.availableActions()
         Assertions.assertEquals(
             listOf(
-                Action(3 to 2, ActionType.MOVE, null),
-                Action(2 to 3, ActionType.MOVE, null),
+                Action(knight.position,3 to 2, ActionType.MOVE, null),
+                Action(knight.position,2 to 3, ActionType.MOVE, null),
 
             ),
             availableActions
         )
 
         val action = availableActions.first {
-            it.position == 3 to 2
+            it.toPosition == 3 to 2
         }
         knight.executeAction(action)
 
         Assertions.assertEquals(
             listOf(
-                Action(5 to 3, ActionType.MOVE, null),
-                Action(1 to 3, ActionType.MOVE, null),
-                Action(5 to 1, ActionType.MOVE, null),
-                Action(1 to 1, ActionType.MOVE, null),
-                Action(4 to 4, ActionType.MOVE, null),
-                Action(2 to 4, ActionType.MOVE, null)
+                Action(knight.position,5 to 3, ActionType.MOVE, null),
+                Action(knight.position,1 to 3, ActionType.MOVE, null),
+                Action(knight.position,5 to 1, ActionType.MOVE, null),
+                Action(knight.position,1 to 1, ActionType.MOVE, null),
+                Action(knight.position,4 to 4, ActionType.MOVE, null),
+                Action(knight.position,2 to 4, ActionType.MOVE, null)
             ),
             knight.availableActions()
         )
@@ -54,26 +54,26 @@ internal class KnightTest: AbstractPieceTest() {
         val availableActions = knight.availableActions()
         Assertions.assertEquals(
             listOf(
-                Action(3 to 2, ActionType.MOVE, null),
-                Action(2 to 3, ActionType.MOVE, null)
+                Action(knight.position,3 to 2, ActionType.MOVE, null),
+                Action(knight.position,2 to 3, ActionType.MOVE, null)
 
             ),
             availableActions
         )
 
         val action = availableActions.first {
-            it.position == 3 to 2
+            it.toPosition == 3 to 2
         }
         knight.executeAction(action)
 
         Assertions.assertEquals(
             listOf(
-                Action(5 to 3, ActionType.MOVE, null),
-                Action(1 to 3, ActionType.MOVE, null),
-                Action(5 to 1, ActionType.MOVE, null),
-                Action(1 to 1, ActionType.MOVE, null),
-                Action(4 to 4, ActionType.MOVE, null),
-                Action(2 to 4, ActionType.MOVE, null)
+                Action(knight.position,5 to 3, ActionType.MOVE, null),
+                Action(knight.position,1 to 3, ActionType.MOVE, null),
+                Action(knight.position,5 to 1, ActionType.MOVE, null),
+                Action(knight.position,1 to 1, ActionType.MOVE, null),
+                Action(knight.position,4 to 4, ActionType.MOVE, null),
+                Action(knight.position,2 to 4, ActionType.MOVE, null)
             ),
             knight.availableActions()
         )
@@ -94,13 +94,13 @@ internal class KnightTest: AbstractPieceTest() {
         val actions = knight.availableActions()
         Assertions.assertEquals(
             listOf(
-                Action(3 to 2, ActionType.CAPTURE, knight2),
-                Action(2 to 3, ActionType.MOVE, null)
+                Action(knight.position,3 to 2, ActionType.CAPTURE, knight2),
+                Action(knight.position,2 to 3, ActionType.MOVE, null)
             ),
             actions
         )
         val action = actions.first {
-            it.position == 3 to 2
+            it.toPosition == 3 to 2
         }
         Assertions.assertEquals(board.containsValue(knight2), true)
 
@@ -108,12 +108,12 @@ internal class KnightTest: AbstractPieceTest() {
 
         Assertions.assertEquals(
             listOf(
-                Action(5 to 3, ActionType.MOVE, null),
-                Action(1 to 3, ActionType.MOVE, null),
-                Action(5 to 1, ActionType.MOVE, null),
-                Action(1 to 1, ActionType.MOVE, null),
-                Action(4 to 4, ActionType.MOVE, null),
-                Action(2 to 4, ActionType.MOVE, null)
+                Action(knight.position,5 to 3, ActionType.MOVE, null),
+                Action(knight.position,1 to 3, ActionType.MOVE, null),
+                Action(knight.position,5 to 1, ActionType.MOVE, null),
+                Action(knight.position,1 to 1, ActionType.MOVE, null),
+                Action(knight.position,4 to 4, ActionType.MOVE, null),
+                Action(knight.position,2 to 4, ActionType.MOVE, null)
 
             ),
             knight.availableActions()
@@ -142,13 +142,13 @@ internal class KnightTest: AbstractPieceTest() {
         val actions = knight.availableActions()
         Assertions.assertEquals(
             listOf(
-                Action(3 to 2, ActionType.CAPTURE, knight2),
-                Action(2 to 3, ActionType.MOVE, null)
+                Action(knight.position,3 to 2, ActionType.CAPTURE, knight2),
+                Action(knight.position,2 to 3, ActionType.MOVE, null)
             ),
             actions
         )
         val action = actions.first {
-            it.position == 3 to 2
+            it.toPosition == 3 to 2
         }
         Assertions.assertEquals(board.containsValue(knight2), true)
 
@@ -156,12 +156,12 @@ internal class KnightTest: AbstractPieceTest() {
 
         Assertions.assertEquals(
             listOf(
-                Action(5 to 3, ActionType.MOVE, null),
-                Action(1 to 3, ActionType.MOVE, null),
-                Action(5 to 1, ActionType.MOVE, null),
-                Action(1 to 1, ActionType.MOVE, null),
-                Action(4 to 4, ActionType.MOVE, null),
-                Action(2 to 4, ActionType.MOVE, null)
+                Action(knight.position,5 to 3, ActionType.MOVE, null),
+                Action(knight.position,1 to 3, ActionType.MOVE, null),
+                Action(knight.position,5 to 1, ActionType.MOVE, null),
+                Action(knight.position,1 to 1, ActionType.MOVE, null),
+                Action(knight.position,4 to 4, ActionType.MOVE, null),
+                Action(knight.position,2 to 4, ActionType.MOVE, null)
             ),
             knight.availableActions()
         )

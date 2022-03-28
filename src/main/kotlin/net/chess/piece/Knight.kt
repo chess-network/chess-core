@@ -1,9 +1,10 @@
 package net.chess.piece
 
 import net.chess.Action
-import net.chess.ActionType
+import net.chess.enums.ActionType
 import net.chess.Board
-import net.chess.PieceColor
+import net.chess.enums.PieceColor
+import net.chess.enums.PieceType
 
 class Knight(
     color: PieceColor,
@@ -39,9 +40,9 @@ class Knight(
         return if (board[pair]?.color == color || board[pair] is King) {
             null
         } else if (board[pair] != null && board[pair]?.color != color && board[pair] !is King)
-            Action(pair, ActionType.CAPTURE, board[pair])
+            Action(this.position, pair, ActionType.CAPTURE, board[pair])
         else {
-            Action(pair, ActionType.MOVE)
+            Action(this.position, pair, ActionType.MOVE)
         }
     }
 

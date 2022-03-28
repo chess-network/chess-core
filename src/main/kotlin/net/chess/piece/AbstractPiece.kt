@@ -1,6 +1,9 @@
 package net.chess.piece
 
 import net.chess.*
+import net.chess.enums.ActionType
+import net.chess.enums.PieceColor
+import net.chess.enums.PieceType
 
 abstract class AbstractPiece(
     val color: PieceColor,
@@ -17,14 +20,14 @@ abstract class AbstractPiece(
      fun executeAction(action: Action){
          validateAction(action)
          when (action.type) {
-             ActionType.MOVE -> board.move(position, action.position)
+             ActionType.MOVE -> board.move(position, action.toPosition)
              ActionType.CAPTURE -> {
 
                  if (action.target == null)
                      throw IllegalArgumentException("Target is null")
 
                  board.remove(action.target.position)
-                 board.move(position, action.position)
+                 board.move(position, action.toPosition)
              }
              ActionType.EN_PASSANT -> {
 
@@ -32,14 +35,14 @@ abstract class AbstractPiece(
                      throw IllegalArgumentException("Target is null")
 
                  board.remove(action.target.position)
-                 board.move(position, action.position)
+                 board.move(position, action.toPosition)
              }
              ActionType.PROMOTION -> {
                  board.remove(position)
-                 board[action.position] = action.target
+                 board[action.toPosition] = action.target
              }
              ActionType.CASTLING -> {
-                 board.move(position, action.position)
+                 board.move(position, action.toPosition)
              }
          }
 
@@ -68,6 +71,6 @@ abstract class AbstractPiece(
 
     val code: String = "${color.code}${type.code}"
 
-    val fullCode = "${color.code}${type.code}${getNumber()}"
+    fun fullCode() = "${color.code}${type.code}${getNumber()}"
 
 }

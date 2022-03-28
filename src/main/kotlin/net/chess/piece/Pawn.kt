@@ -1,6 +1,9 @@
 package net.chess.piece
 
 import net.chess.*
+import net.chess.enums.ActionType
+import net.chess.enums.PieceColor
+import net.chess.enums.PieceType
 
 
 class Pawn(
@@ -53,13 +56,13 @@ class Pawn(
             .filter {
                 !board.containsKey(it)
             }.map {
-                Action(it, ActionType.MOVE)
+                Action(this.position, it, ActionType.MOVE)
             }
 
         val captures = capture(position, color).let {
             val piece = board[it]
             if (piece != null && piece.color != color && piece !is King)
-                listOf(Action(it, ActionType.CAPTURE, piece))
+                listOf(Action(this.position, it, ActionType.CAPTURE, piece))
             else
                 emptyList()
         }
@@ -88,12 +91,12 @@ class Pawn(
 
             val leftPassant =
                 if (leftPiece is Pawn && !board.containsKey(passantList[2]) && leftPiece.history.size == 1)
-                    Action(passantList[2], ActionType.EN_PASSANT, leftPiece)
+                    Action(this.position, passantList[2], ActionType.EN_PASSANT, leftPiece)
                 else null
 
             val rightPassant =
                 if (rightPiece != null && !board.containsKey(passantList[3]) && rightPiece.history.size == 1)
-                    Action(passantList[3], ActionType.EN_PASSANT, rightPiece)
+                    Action(this.position, passantList[3], ActionType.EN_PASSANT, rightPiece)
                 else null
 
             listOfNotNull(leftPassant, rightPassant)
@@ -107,10 +110,10 @@ class Pawn(
             val newPosition = position.first to (position.second + promotionCondition)
 
             listOf(
-                Action(newPosition, ActionType.PROMOTION, Queen(color, newPosition, board)),
-                Action(newPosition, ActionType.PROMOTION, Rook(color, newPosition, board)),
-                Action(newPosition, ActionType.PROMOTION, Bishop(color, newPosition, board)),
-                Action(newPosition, ActionType.PROMOTION, Knight(color, newPosition, board))
+                Action(this.position, newPosition, ActionType.PROMOTION, Queen(color, newPosition, board)),
+                Action(this.position,newPosition, ActionType.PROMOTION, Rook(color, newPosition, board)),
+                Action(this.position,newPosition, ActionType.PROMOTION, Bishop(color, newPosition, board)),
+                Action(this.position,newPosition, ActionType.PROMOTION, Knight(color, newPosition, board))
             )
         } else emptyList()
 

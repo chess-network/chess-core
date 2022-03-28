@@ -1,4 +1,4 @@
-package net.chess
+package net.chess.enums
 
 enum class ActionType(val code: String) {
     MOVE("MV"),

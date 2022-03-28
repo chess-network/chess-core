@@ -1,6 +1,8 @@
 import net.chess.Action
 import net.chess.Board
-import net.chess.PieceColor
+import net.chess.command.CommandFactory
+import net.chess.enums.CommandType
+import net.chess.enums.PieceColor
 import net.chess.piece.Knight
 
 fun main(args: Array<String>) {
@@ -18,6 +20,7 @@ fun main(args: Array<String>) {
     knight2.appear()
     board.print()
     var mainCommand = ""
+
 
     while (mainCommand != "END") {
         print("Enter command: ")

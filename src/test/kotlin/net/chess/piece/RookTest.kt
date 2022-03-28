@@ -1,9 +1,8 @@
 package net.chess.piece
 
 import net.chess.Action
-import net.chess.ActionType
-import net.chess.PieceColor
-import org.junit.jupiter.api.BeforeEach
+import net.chess.enums.ActionType
+import net.chess.enums.PieceColor
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -18,11 +17,11 @@ internal class RookTest: AbstractPieceTest() {
         val actions = rook.availableActions()
         assertEquals(14, actions.size)
 
-        assertTrue(actions.contains(Action(3 to 2, ActionType.MOVE )))
-        assertTrue(actions.contains(Action(3 to 7, ActionType.MOVE )))
+        assertTrue(actions.contains(Action(rook.position, 3 to 2, ActionType.MOVE )))
+        assertTrue(actions.contains(Action(rook.position, 3 to 7, ActionType.MOVE )))
 
-        assertTrue(actions.contains(Action(6 to 4, ActionType.MOVE )))
-        assertTrue(actions.contains(Action(1 to 4, ActionType.MOVE )))
+        assertTrue(actions.contains(Action(rook.position, 6 to 4, ActionType.MOVE )))
+        assertTrue(actions.contains(Action(rook.position, 1 to 4, ActionType.MOVE )))
     }
 
     @Test

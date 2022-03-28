@@ -1,4 +1,4 @@
-package net.chess.piece
+package net.chess.enums
 
 enum class PieceType(val code: String) {
     PAWN("PW"),

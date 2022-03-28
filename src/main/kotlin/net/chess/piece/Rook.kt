@@ -1,9 +1,10 @@
 package net.chess.piece
 
 import net.chess.Action
-import net.chess.ActionType
+import net.chess.enums.ActionType
 import net.chess.Board
-import net.chess.PieceColor
+import net.chess.enums.PieceColor
+import net.chess.enums.PieceType
 import java.util.stream.IntStream
 
 class Rook(
@@ -76,7 +77,7 @@ class Rook(
 
     override fun availableActions(): List<Action> {
         val moves = move(board, position).map {
-            Action(it, ActionType.MOVE)
+            Action(this.position, it, ActionType.MOVE)
         }
 
         val (top, bottom) = minMax(board, position, true)
@@ -92,7 +93,7 @@ class Rook(
         }.filter {
             it.color != color && it !is King
         }.map {
-            Action(it.position, ActionType.CAPTURE, it)
+            Action(this.position, it.position, ActionType.CAPTURE, it)
         }
 
         return moves + captures

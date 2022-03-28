@@ -2,7 +2,8 @@ package net.chess.piece
 
 import net.chess.Action
 import net.chess.Board
-import net.chess.PieceColor
+import net.chess.enums.PieceColor
+import net.chess.enums.PieceType
 
 class King(
     color: PieceColor,

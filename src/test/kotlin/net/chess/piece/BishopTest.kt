@@ -1,10 +1,9 @@
 package net.chess.piece
 
 import net.chess.Action
-import net.chess.ActionType
-import net.chess.PieceColor
+import net.chess.enums.ActionType
+import net.chess.enums.PieceColor
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 internal class BishopTest : AbstractPieceTest() {
@@ -18,19 +17,19 @@ internal class BishopTest : AbstractPieceTest() {
         val availableActions = bishop.availableActions()
         Assertions.assertEquals(
             listOf(
-                Action(5 to 5, ActionType.MOVE, null),
-                Action(6 to 6, ActionType.MOVE, null),
-                Action(7 to 7, ActionType.MOVE, null),
-                Action(8 to 8, ActionType.MOVE, null),
-                Action(3 to 5, ActionType.MOVE, null),
-                Action(2 to 6, ActionType.MOVE, null),
-                Action(1 to 7, ActionType.MOVE, null),
-                Action(5 to 3, ActionType.MOVE, null),
-                Action(6 to 2, ActionType.MOVE, null),
-                Action(7 to 1, ActionType.MOVE, null),
-                Action(3 to 3, ActionType.MOVE, null),
-                Action(2 to 2, ActionType.MOVE, null),
-                Action(1 to 1, ActionType.MOVE, null)
+                Action(bishop.position, 5 to 5, ActionType.MOVE, null),
+                Action(bishop.position,6 to 6, ActionType.MOVE, null),
+                Action(bishop.position,7 to 7, ActionType.MOVE, null),
+                Action(bishop.position,8 to 8, ActionType.MOVE, null),
+                Action(bishop.position,3 to 5, ActionType.MOVE, null),
+                Action(bishop.position,2 to 6, ActionType.MOVE, null),
+                Action(bishop.position,1 to 7, ActionType.MOVE, null),
+                Action(bishop.position,5 to 3, ActionType.MOVE, null),
+                Action(bishop.position,6 to 2, ActionType.MOVE, null),
+                Action(bishop.position,7 to 1, ActionType.MOVE, null),
+                Action(bishop.position,3 to 3, ActionType.MOVE, null),
+                Action(bishop.position,2 to 2, ActionType.MOVE, null),
+                Action(bishop.position,1 to 1, ActionType.MOVE, null)
 
 
 
@@ -40,25 +39,25 @@ internal class BishopTest : AbstractPieceTest() {
         )
 
         val action = availableActions.first {
-            it.position == 5 to 5
+            it.toPosition == 5 to 5
         }
         bishop.executeAction(action)
 
         Assertions.assertEquals(
             listOf(
-                Action(6 to 6, ActionType.MOVE, null),
-                Action(7 to 7, ActionType.MOVE, null),
-                Action(8 to 8, ActionType.MOVE, null),
-                Action(4 to 6, ActionType.MOVE, null),
-                Action(3 to 7, ActionType.MOVE, null),
-                Action(2 to 8, ActionType.MOVE, null),
-                Action(6 to 4, ActionType.MOVE, null),
-                Action(7 to 3, ActionType.MOVE, null),
-                Action(8 to 2, ActionType.MOVE, null),
-                Action(4 to 4, ActionType.MOVE, null),
-                Action(3 to 3, ActionType.MOVE, null),
-                Action(2 to 2, ActionType.MOVE, null),
-                Action(1 to 1, ActionType.MOVE, null)
+                Action(bishop.position,6 to 6, ActionType.MOVE, null),
+                Action(bishop.position,7 to 7, ActionType.MOVE, null),
+                Action(bishop.position,8 to 8, ActionType.MOVE, null),
+                Action(bishop.position,4 to 6, ActionType.MOVE, null),
+                Action(bishop.position,3 to 7, ActionType.MOVE, null),
+                Action(bishop.position,2 to 8, ActionType.MOVE, null),
+                Action(bishop.position,6 to 4, ActionType.MOVE, null),
+                Action(bishop.position,7 to 3, ActionType.MOVE, null),
+                Action(bishop.position,8 to 2, ActionType.MOVE, null),
+                Action(bishop.position,4 to 4, ActionType.MOVE, null),
+                Action(bishop.position,3 to 3, ActionType.MOVE, null),
+                Action(bishop.position,2 to 2, ActionType.MOVE, null),
+                Action(bishop.position,1 to 1, ActionType.MOVE, null)
             ),
             bishop.availableActions()
         )
@@ -76,43 +75,43 @@ internal class BishopTest : AbstractPieceTest() {
         val availableActions = bishop.availableActions()
         Assertions.assertEquals(
             listOf(
-                Action(5 to 5, ActionType.MOVE, null),
-                Action(6 to 6, ActionType.MOVE, null),
-                Action(7 to 7, ActionType.MOVE, null),
-                Action(8 to 8, ActionType.MOVE, null),
-                Action(3 to 5, ActionType.MOVE, null),
-                Action(2 to 6, ActionType.MOVE, null),
-                Action(1 to 7, ActionType.MOVE, null),
-                Action(5 to 3, ActionType.MOVE, null),
-                Action(6 to 2, ActionType.MOVE, null),
-                Action(7 to 1, ActionType.MOVE, null),
-                Action(3 to 3, ActionType.MOVE, null),
-                Action(2 to 2, ActionType.MOVE, null),
-                Action(1 to 1, ActionType.MOVE, null)
+                Action(bishop.position,5 to 5, ActionType.MOVE, null),
+                Action(bishop.position,6 to 6, ActionType.MOVE, null),
+                Action(bishop.position,7 to 7, ActionType.MOVE, null),
+                Action(bishop.position,8 to 8, ActionType.MOVE, null),
+                Action(bishop.position,3 to 5, ActionType.MOVE, null),
+                Action(bishop.position,2 to 6, ActionType.MOVE, null),
+                Action(bishop.position,1 to 7, ActionType.MOVE, null),
+                Action(bishop.position,5 to 3, ActionType.MOVE, null),
+                Action(bishop.position,6 to 2, ActionType.MOVE, null),
+                Action(bishop.position,7 to 1, ActionType.MOVE, null),
+                Action(bishop.position,3 to 3, ActionType.MOVE, null),
+                Action(bishop.position,2 to 2, ActionType.MOVE, null),
+                Action(bishop.position,1 to 1, ActionType.MOVE, null)
             ),
             availableActions
         )
 
         val action = availableActions.first {
-            it.position == 5 to 5
+            it.toPosition == 5 to 5
         }
         bishop.executeAction(action)
 
         Assertions.assertEquals(
             listOf(
-                Action(6 to 6, ActionType.MOVE, null),
-                Action(7 to 7, ActionType.MOVE, null),
-                Action(8 to 8, ActionType.MOVE, null),
-                Action(4 to 6, ActionType.MOVE, null),
-                Action(3 to 7, ActionType.MOVE, null),
-                Action(2 to 8, ActionType.MOVE, null),
-                Action(6 to 4, ActionType.MOVE, null),
-                Action(7 to 3, ActionType.MOVE, null),
-                Action(8 to 2, ActionType.MOVE, null),
-                Action(4 to 4, ActionType.MOVE, null),
-                Action(3 to 3, ActionType.MOVE, null),
-                Action(2 to 2, ActionType.MOVE, null),
-                Action(1 to 1, ActionType.MOVE, null)
+                Action(bishop.position,6 to 6, ActionType.MOVE, null),
+                Action(bishop.position,7 to 7, ActionType.MOVE, null),
+                Action(bishop.position,8 to 8, ActionType.MOVE, null),
+                Action(bishop.position,4 to 6, ActionType.MOVE, null),
+                Action(bishop.position,3 to 7, ActionType.MOVE, null),
+                Action(bishop.position,2 to 8, ActionType.MOVE, null),
+                Action(bishop.position,6 to 4, ActionType.MOVE, null),
+                Action(bishop.position,7 to 3, ActionType.MOVE, null),
+                Action(bishop.position,8 to 2, ActionType.MOVE, null),
+                Action(bishop.position,4 to 4, ActionType.MOVE, null),
+                Action(bishop.position,3 to 3, ActionType.MOVE, null),
+                Action(bishop.position,2 to 2, ActionType.MOVE, null),
+                Action(bishop.position,1 to 1, ActionType.MOVE, null)
             ),
             bishop.availableActions()
         )
@@ -133,12 +132,12 @@ internal class BishopTest : AbstractPieceTest() {
         val actions = bishop.availableActions()
         Assertions.assertEquals(
             listOf(
-                Action(2 to 2, ActionType.CAPTURE, bishop2)
+                Action(bishop.position,2 to 2, ActionType.CAPTURE, bishop2)
             ),
             actions
         )
         val action = actions.first {
-            it.position == 2 to 2
+            it.toPosition == 2 to 2
         }
         Assertions.assertEquals(board.containsValue(bishop2), true)
 
@@ -147,15 +146,15 @@ internal class BishopTest : AbstractPieceTest() {
         Assertions.assertEquals(
             listOf(
 
-                Action(3 to 3, ActionType.MOVE, null),
-                Action(4 to 4, ActionType.MOVE, null),
-                Action(5 to 5, ActionType.MOVE, null),
-                Action(6 to 6, ActionType.MOVE, null),
-                Action(7 to 7, ActionType.MOVE, null),
-                Action(8 to 8, ActionType.MOVE, null),
-                Action(1 to 3, ActionType.MOVE, null),
-                Action(3 to 1, ActionType.MOVE, null),
-                Action(1 to 1, ActionType.MOVE, null),
+                Action(bishop.position,3 to 3, ActionType.MOVE, null),
+                Action(bishop.position,4 to 4, ActionType.MOVE, null),
+                Action(bishop.position,5 to 5, ActionType.MOVE, null),
+                Action(bishop.position,6 to 6, ActionType.MOVE, null),
+                Action(bishop.position,7 to 7, ActionType.MOVE, null),
+                Action(bishop.position,8 to 8, ActionType.MOVE, null),
+                Action(bishop.position,1 to 3, ActionType.MOVE, null),
+                Action(bishop.position,3 to 1, ActionType.MOVE, null),
+                Action(bishop.position,1 to 1, ActionType.MOVE, null),
             ),
             bishop.availableActions()
         )
@@ -183,12 +182,12 @@ internal class BishopTest : AbstractPieceTest() {
         val actions = bishop.availableActions()
         Assertions.assertEquals(
             listOf(
-                Action(2 to 2, ActionType.CAPTURE, bishop2),
+                Action(bishop.position,2 to 2, ActionType.CAPTURE, bishop2),
             ),
             actions
         )
         val action = actions.first {
-            it.position == 2 to 2
+            it.toPosition == 2 to 2
         }
         Assertions.assertEquals(board.containsValue(bishop2), true)
 
@@ -196,15 +195,15 @@ internal class BishopTest : AbstractPieceTest() {
 
         Assertions.assertEquals(
             listOf(
-                Action(3 to 3, ActionType.MOVE, null),
-                Action(4 to 4, ActionType.MOVE, null),
-                Action(5 to 5, ActionType.MOVE, null),
-                Action(6 to 6, ActionType.MOVE, null),
-                Action(7 to 7, ActionType.MOVE, null),
-                Action(8 to 8, ActionType.MOVE, null),
-                Action(1 to 3, ActionType.MOVE, null),
-                Action(3 to 1, ActionType.MOVE, null),
-                Action(1 to 1, ActionType.MOVE, null),
+                Action(bishop.position,3 to 3, ActionType.MOVE, null),
+                Action(bishop.position,4 to 4, ActionType.MOVE, null),
+                Action(bishop.position,5 to 5, ActionType.MOVE, null),
+                Action(bishop.position,6 to 6, ActionType.MOVE, null),
+                Action(bishop.position,7 to 7, ActionType.MOVE, null),
+                Action(bishop.position,8 to 8, ActionType.MOVE, null),
+                Action(bishop.position,1 to 3, ActionType.MOVE, null),
+                Action(bishop.position,3 to 1, ActionType.MOVE, null),
+                Action(bishop.position,1 to 1, ActionType.MOVE, null),
             ),
             bishop.availableActions()
         )

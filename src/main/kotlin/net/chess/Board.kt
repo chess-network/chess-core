@@ -1,7 +1,8 @@
 package net.chess
 
+import net.chess.enums.PieceColor
 import net.chess.piece.AbstractPiece
-import net.chess.piece.PieceType
+import net.chess.enums.PieceType
 import java.util.*
 
 class Board(
@@ -48,7 +49,7 @@ class Board(
 
                 val piece = this[j to i]
 
-                val block = piece?.fullCode ?: "    "
+                val block = piece?.fullCode() ?: "    "
 
 
                 print("|$block")

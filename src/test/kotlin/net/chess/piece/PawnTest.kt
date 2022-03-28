@@ -1,12 +1,11 @@
 package net.chess.piece
 
 import net.chess.*
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
+import net.chess.enums.ActionType
+import net.chess.enums.PieceColor
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
-import java.math.BigDecimal
 
 internal class PawnTest: AbstractPieceTest() {
 
@@ -19,20 +18,20 @@ internal class PawnTest: AbstractPieceTest() {
         val availableActions = pawn.availableActions()
         assertEquals(
             listOf(
-                Action(1 to 3, ActionType.MOVE, null),
-                Action(1 to 4, ActionType.MOVE, null)
+                Action(pawn.position, 1 to 3, ActionType.MOVE, null),
+                Action(pawn.position, 1 to 4, ActionType.MOVE, null)
             ),
             availableActions
         )
 
         val action = availableActions.first {
-            it.position == 1 to 4
+            it.toPosition == 1 to 4
         }
         pawn.executeAction(action)
 
         assertEquals(
             listOf(
-                Action(1 to 5, ActionType.MOVE, null)
+                Action(pawn.position, 1 to 5, ActionType.MOVE, null)
             ),
             pawn.availableActions()
         )
@@ -51,21 +50,21 @@ internal class PawnTest: AbstractPieceTest() {
         val availableActions = pawn.availableActions()
         assertEquals(
             listOf(
-                Action(5 to 6, ActionType.MOVE, null),
-                Action(5 to 5, ActionType.MOVE, null)
+                Action(pawn.position, 5 to 6, ActionType.MOVE, null),
+                Action(pawn.position, 5 to 5, ActionType.MOVE, null)
             ),
             availableActions
         )
 
         val action = availableActions.first {
-            it.position == 5 to 6
+            it.toPosition == 5 to 6
         }
         pawn.executeAction(action)
 
 
         assertEquals(
             listOf(
-                Action(5 to 5, ActionType.MOVE, null)
+                Action(pawn.position, 5 to 5, ActionType.MOVE, null)
             ),
             pawn.availableActions()
         )
@@ -87,14 +86,14 @@ internal class PawnTest: AbstractPieceTest() {
         val actions = pawn.availableActions()
         assertEquals(
             listOf(
-                Action(1 to 3, ActionType.MOVE, null),
-                Action(1 to 4, ActionType.MOVE, null),
-                Action(2 to 3, ActionType.CAPTURE, pawn2)
+                Action(pawn.position, 1 to 3, ActionType.MOVE, null),
+                Action(pawn.position, 1 to 4, ActionType.MOVE, null),
+                Action(pawn.position, 2 to 3, ActionType.CAPTURE, pawn2)
             ),
             actions
         )
         val action = actions.first {
-            it.position == 2 to 3
+            it.toPosition == 2 to 3
         }
         assertEquals(board.containsValue(pawn2), true)
 
@@ -102,7 +101,7 @@ internal class PawnTest: AbstractPieceTest() {
 
         assertEquals(
             listOf(
-                Action(2 to 4, ActionType.MOVE, null)
+                Action(pawn.position, 2 to 4, ActionType.MOVE, null)
             ),
             pawn.availableActions()
         )
@@ -130,13 +129,13 @@ internal class PawnTest: AbstractPieceTest() {
         val actions = pawn.availableActions()
         assertEquals(
             listOf(
-                Action(6 to 4, ActionType.MOVE, null),
-                Action(5 to 4, ActionType.CAPTURE, pawn2)
+                Action(pawn.position, 6 to 4, ActionType.MOVE, null),
+                Action(pawn.position, 5 to 4, ActionType.CAPTURE, pawn2)
             ),
             actions
         )
         val action = actions.first {
-            it.position == 6 to 4
+            it.toPosition == 6 to 4
         }
         assertEquals(board.containsValue(pawn2), true)
 
@@ -144,7 +143,7 @@ internal class PawnTest: AbstractPieceTest() {
 
         assertEquals(
             listOf(
-                Action(6 to 3, ActionType.MOVE, null)
+                Action(pawn.position,6 to 3, ActionType.MOVE, null)
             ),
             pawn.availableActions()
         )
@@ -168,25 +167,25 @@ internal class PawnTest: AbstractPieceTest() {
 
         val pawn2 = Pawn(PieceColor.BLACK, 4 to 7, board)
         pawn2.appear()
-        pawn2.executeAction(Action(4 to 5, ActionType.MOVE, null))
+        pawn2.executeAction(Action(pawn2.position, 4 to 5, ActionType.MOVE, null))
         assertEquals(board.containsValue(pawn2), true)
 
         val actions = pawn.availableActions()
         assertEquals(
             listOf(
-                Action(5 to 6, ActionType.MOVE, null),
-                Action(4 to 6, ActionType.EN_PASSANT, pawn2)
+                Action(pawn.position, 5 to 6, ActionType.MOVE, null),
+                Action(pawn.position, 4 to 6, ActionType.EN_PASSANT, pawn2)
             ),
             actions
         )
         val action = actions.first {
-            it.position == 4 to 6
+            it.toPosition == 4 to 6
         }
         pawn.executeAction(action)
 
         assertEquals(
             listOf(
-                Action(4 to 7, ActionType.MOVE, null)
+                Action(pawn.position, 4 to 7, ActionType.MOVE, null)
             ),
             pawn.availableActions()
         )
@@ -207,7 +206,7 @@ internal class PawnTest: AbstractPieceTest() {
             {
                 assert(
                     pawn.availableActions()
-                        .all { it.type == ActionType.PROMOTION && it.position == 3 to 8 && it.target != null })
+                        .all { it.type == ActionType.PROMOTION && it.toPosition == 3 to 8 && it.target != null })
             },
             {
                 assertEquals(
@@ -222,7 +221,7 @@ internal class PawnTest: AbstractPieceTest() {
             {
                 assert(
                     pawn2.availableActions()
-                        .all { it.type == ActionType.PROMOTION && it.position == 5 to 1 && it.target != null })
+                        .all { it.type == ActionType.PROMOTION && it.toPosition == 5 to 1 && it.target != null })
             },
             {
                 assertEquals(
@@ -237,10 +236,10 @@ internal class PawnTest: AbstractPieceTest() {
         assertEquals(board.containsValue(pawn2), true)
 
         val queen = Queen(PieceColor.WHITE, 3 to 8, board)
-        pawn.executeAction(Action(3 to 8, ActionType.PROMOTION, queen))
+        pawn.executeAction(Action(pawn.position, 3 to 8, ActionType.PROMOTION, queen))
 
         val rook = Rook(PieceColor.BLACK, 5 to 1, board)
-        pawn2.executeAction(Action(5 to 1, ActionType.PROMOTION, rook))
+        pawn2.executeAction(Action(pawn2.position, 5 to 1, ActionType.PROMOTION, rook))
 
 
         assertEquals(board.containsValue(pawn), false)
