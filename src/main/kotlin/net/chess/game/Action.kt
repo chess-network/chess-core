@@ -12,6 +12,5 @@ data class Action(
     companion object{
         fun actionToCode(action: Action): String =
             (Board.pairToSquare(action.toPosition) + action.type.code  + (action.target?.fullCode() ?: "NULL"))
-
     }
 }
