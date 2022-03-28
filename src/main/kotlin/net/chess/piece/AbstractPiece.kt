@@ -6,8 +6,11 @@ abstract class AbstractPiece(
     val color: PieceColor,
     var position: Pair<Int, Int>,
     val board: Board,
+    val type: PieceType,
     val history: MutableList<History> = mutableListOf()
 ) {
+
+
 
     abstract fun availableActions(): List<Action>
 
@@ -60,4 +63,11 @@ abstract class AbstractPiece(
     override fun hashCode(): Int {
         return super.hashCode()
     }
+
+    private fun getNumber() = board.pieceNumber(code)
+
+    val code: String = "${color.code}${type.code}"
+
+    val fullCode = "${color.code}${type.code}${getNumber()}"
+
 }

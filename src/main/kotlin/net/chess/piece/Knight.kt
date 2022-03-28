@@ -9,7 +9,7 @@ class Knight(
     color: PieceColor,
     position: Pair<Int, Int>,
     board: Board
-) : AbstractPiece(color, position, board) {
+) : AbstractPiece(color, position, board, PieceType.KNIGHT) {
     override fun availableActions(): List<Action> {
 
         val availableActions: MutableList<Action> = mutableListOf()

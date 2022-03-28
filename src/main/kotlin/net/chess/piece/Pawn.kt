@@ -7,7 +7,7 @@ class Pawn(
     color: PieceColor,
     position: Pair<Int, Int>,
     board: Board
-) : AbstractPiece(color, position, board) {
+) : AbstractPiece(color, position, board, PieceType.PAWN) {
 
     companion object {
         fun move(position: Pair<Int, Int>, color: PieceColor): Pair<Int, Int>? {

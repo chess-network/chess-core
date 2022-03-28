@@ -5,13 +5,12 @@ import net.chess.ActionType
 import net.chess.Board
 import net.chess.PieceColor
 import java.util.stream.IntStream
-import kotlin.streams.asSequence
 
 class Rook(
     color: PieceColor,
     position: Pair<Int, Int>,
     board: Board
-) : AbstractPiece(color, position, board) {
+) : AbstractPiece(color, position, board, PieceType.ROOK) {
 
     companion object {
         fun move(board: Board, position: Pair<Int, Int>): List<Pair<Int, Int>> {
