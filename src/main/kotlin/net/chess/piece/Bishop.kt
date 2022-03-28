@@ -50,15 +50,5 @@ class Bishop(
         return availableActions
     }
 
-    private fun checkMove(pair: Pair<Int, Int>): Action? {
-        return if(board[pair]?.color == color){
-            null
-        } else if (board[pair] != null && board[pair]?.color != color && board[pair] !is King)
-            Action(this.position,pair, ActionType.CAPTURE, board[pair])
-        else{
-            Action(this.position, pair, ActionType.MOVE)
-        }
-    }
-
 
 }

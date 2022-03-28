@@ -75,4 +75,14 @@ abstract class AbstractPiece(
 
     fun fullCode() = "${color.code}${type.code}${getNumber()}"
 
+    fun checkMove(pair: Pair<Int, Int>): Action? {
+        return if(board[pair]?.color == color){
+            null
+        } else if (board[pair] != null && board[pair]?.color != color && board[pair] !is King)
+            Action(this.position,pair, ActionType.CAPTURE, board[pair])
+        else{
+            Action(this.position, pair, ActionType.MOVE)
+        }
+    }
+
 }
