@@ -7,10 +7,26 @@ data class Action(
     val fromPosition: Pair<Int, Int>,
     val toPosition: Pair<Int, Int>,
     val type: ActionType,
-    val target: AbstractPiece? = null
-){
-    companion object{
-        fun actionToCode(action: Action): String =
-            (Board.pairToSquare(action.toPosition) + action.type.code  + (action.target?.fullCode() ?: "NULL"))
+    val targetPiece: AbstractPiece? = null
+)
+{
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as Action
+
+        if (fromPosition != other.fromPosition) return false
+        if (toPosition != other.toPosition) return false
+        if (type != other.type) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = fromPosition.hashCode()
+        result = 31 * result + toPosition.hashCode()
+        result = 31 * result + type.hashCode()
+        result = 31 * result + (targetPiece?.hashCode() ?: 0)
+        return result
     }
 }

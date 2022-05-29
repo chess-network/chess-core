@@ -13,11 +13,6 @@ class Bishop(
 ) : AbstractPiece(color, position, board, PieceType.BISHOP)  {
 
 
-    companion object{
-
-
-
-    }
 
     override fun availableActions(): List<Action> {
         val availableActions: MutableList<Action> = mutableListOf()

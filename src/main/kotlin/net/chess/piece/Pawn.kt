@@ -50,7 +50,7 @@ class Pawn(
 
 
     override fun availableActions(): List<Action> {
-        val moves = (if (history.isEmpty())
+        val moves = (if (actions.isEmpty())
             listOfNotNull(move(position, color), doubleMove(position, color))
         else
             listOfNotNull(move(position, color)))
@@ -63,7 +63,7 @@ class Pawn(
         val captures = capture(position, color).let {
             val piece = board[it]
             if (piece != null && piece.color != color && piece !is King)
-                listOf(Action(this.position, it, ActionType.CAPTURE, piece))
+                listOf(Action(this.position, it, ActionType.CAPTURE))
             else
                 emptyList()
         }
@@ -91,13 +91,13 @@ class Pawn(
             val rightPiece = board[passantList[1]]
 
             val leftPassant =
-                if (leftPiece is Pawn && !board.containsKey(passantList[2]) && leftPiece.history.size == 1)
-                    Action(this.position, passantList[2], ActionType.EN_PASSANT, leftPiece)
+                if (leftPiece is Pawn && !board.containsKey(passantList[2]) && leftPiece.actions.size == 1)
+                    Action(this.position, passantList[2], ActionType.EN_PASSANT)
                 else null
 
             val rightPassant =
-                if (rightPiece != null && !board.containsKey(passantList[3]) && rightPiece.history.size == 1)
-                    Action(this.position, passantList[3], ActionType.EN_PASSANT, rightPiece)
+                if (rightPiece != null && !board.containsKey(passantList[3]) && rightPiece.actions.size == 1)
+                    Action(this.position, passantList[3], ActionType.EN_PASSANT)
                 else null
 
             listOfNotNull(leftPassant, rightPassant)
@@ -111,10 +111,10 @@ class Pawn(
             val newPosition = position.first to (position.second + promotionCondition)
 
             listOf(
-                Action(this.position, newPosition, ActionType.PROMOTION, Queen(color, newPosition, board)),
-                Action(this.position,newPosition, ActionType.PROMOTION, Rook(color, newPosition, board)),
-                Action(this.position,newPosition, ActionType.PROMOTION, Bishop(color, newPosition, board)),
-                Action(this.position,newPosition, ActionType.PROMOTION, Knight(color, newPosition, board))
+                Action(this.position, newPosition, ActionType.PROMOTION),
+                Action(this.position, newPosition, ActionType.PROMOTION),
+                Action(this.position, newPosition, ActionType.PROMOTION),
+                Action(this.position, newPosition, ActionType.PROMOTION)
             )
         } else emptyList()
 

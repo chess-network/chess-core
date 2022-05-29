@@ -2,7 +2,6 @@ package net.chess.command
 
 import net.chess.game.Action
 import net.chess.game.Board
-import net.chess.enums.CommandType
 import net.chess.enums.PieceColor
 import net.chess.piece.Knight
 import org.junit.jupiter.api.Assertions.*

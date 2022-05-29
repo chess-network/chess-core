@@ -1,18 +1,33 @@
 package net.chess.game
 
+import net.chess.enums.ActionType
 import net.chess.enums.PieceColor
 import net.chess.piece.AbstractPiece
 import net.chess.enums.PieceType
 import java.util.*
 
-class Board(
-    private val onPut: (key: Pair<Int, Int>, value: AbstractPiece) -> (Unit) = { _, _ -> },
-    private val onRemove: (key: Pair<Int, Int>, value: AbstractPiece?) -> (Unit) = { _, _ -> },
-    private val onAction: (action: Action) -> (Unit) = { _ -> }
-) : Hashtable<Pair<Int, Int>, AbstractPiece>() {
+class Board : Hashtable<Pair<Int, Int>, AbstractPiece>() {
 
 
-    private val pieceNumber = hashMapOf<String, Int>()
+    private var onPutFun: (key: Pair<Int, Int>, value: AbstractPiece) -> (Unit) = { _, _ -> }
+    private var onMoveFun: (from: Pair<Int, Int>, to: Pair<Int, Int>, value: AbstractPiece) -> (Unit) = { _, _, _ -> }
+    private var onRemoveFun: (key: Pair<Int, Int>, value: AbstractPiece) -> (Unit) = { _, _ -> }
+    private var onActionFun: (key: Pair<Int, Int>, value: AbstractPiece, action: Action) -> (Unit) = { _, _, _ -> }
+    fun onMove(onMove: (from: Pair<Int, Int>, to: Pair<Int, Int>, value: AbstractPiece) -> (Unit)) {
+        onMoveFun = onMove
+    }
+
+    fun onPut(onPut: (key: Pair<Int, Int>, value: AbstractPiece) -> (Unit)) {
+        onPutFun = onPut
+    }
+
+    fun onRemove(onRemove: (key: Pair<Int, Int>, value: AbstractPiece) -> (Unit)) {
+        onRemoveFun = onRemove
+    }
+
+    fun onAction(onAction: (key: Pair<Int, Int>, value: AbstractPiece, action: Action) -> (Unit)) {
+        onActionFun = onAction
+    }
 
 
     companion object {
@@ -27,16 +42,35 @@ class Board(
 
     fun countByCode(code: String): Int = values.count { it.code == code }
 
-    fun pieceNumber(pieceCode: String): Int = pieceNumber[pieceCode] ?: 0
 
+    fun executeAction(action: Action) {
+        val key = action.fromPosition
 
-    fun move(from: Pair<Int, Int>, to: Pair<Int, Int>): AbstractPiece? {
-        val piece = this[from]
-        if (piece != null) {
-            this.remove(from)
-            piece.position = to
-            this[to] = piece
+        val piece = this[key] ?: throw IllegalArgumentException("No piece on square $key")
+
+        when (action.type) {
+            ActionType.MOVE, ActionType.CASTLING -> move(action.fromPosition, action.toPosition)
+            ActionType.CAPTURE, ActionType.EN_PASSANT -> {
+                if (action.targetPiece == null) throw IllegalArgumentException("No target piece")
+                remove(action.targetPiece.position)
+                move(action.fromPosition, action.toPosition)
+            }
+            ActionType.PROMOTION -> {
+                if (action.targetPiece == null) throw IllegalArgumentException("No target piece")
+                remove(action.fromPosition)
+                put(action.toPosition, action.targetPiece)
+            }
         }
+        onActionFun(key, piece, action)
+    }
+
+
+    private fun move(from: Pair<Int, Int>, to: Pair<Int, Int>): AbstractPiece? {
+        val piece = this[from] ?: throw IllegalArgumentException("No piece on square $from")
+        this.remove(from)
+        piece.position = to
+        this[to] = piece
+        onMoveFun(from, to, piece)
         return piece
     }
 
@@ -49,7 +83,7 @@ class Board(
 
                 val piece = this[j to i]
 
-                val block = piece?.fullCode() ?: "    "
+                val block = (piece?.code ?: "   ") + " "
 
 
                 print("|$block")
@@ -74,40 +108,35 @@ class Board(
         println()
     }
 
-    fun showAction(action: Action) {
-        onAction(action)
-    }
-
 
     override fun putIfAbsent(key: Pair<Int, Int>, value: AbstractPiece): AbstractPiece? {
         allowedRange(key)
-        onPut(key, value)
-        pieceNumber[value.code] = pieceNumber(value.code) + 1
+        if(key != value.position) throw IllegalArgumentException("Piece position is not equal to key")
+        onPutFun(key, value)
 
         return super.putIfAbsent(key, value)
     }
 
     override fun put(key: Pair<Int, Int>, value: AbstractPiece): AbstractPiece? {
         allowedRange(key)
-        onPut(key, value)
-        pieceNumber[value.code] = pieceNumber(value.code) + 1
+        if(key != value.position) throw IllegalArgumentException("Piece position is not equal to key")
+        onPutFun(key, value)
 
         return super.put(key, value)
     }
 
+
     override fun remove(key: Pair<Int, Int>): AbstractPiece? {
         val piece = super.remove(key)
-        onRemove(key, piece)
         if (piece != null) {
-            pieceNumber.remove(piece.code, pieceNumber(piece.code))
+            onRemoveFun(key, piece)
         }
 
         return piece
     }
 
     override fun remove(key: Pair<Int, Int>, value: AbstractPiece): Boolean {
-        onRemove(key, value)
-        pieceNumber.remove(value.code, pieceNumber(value.code))
+        onRemoveFun(key, value)
 
         return super.remove(key, value)
     }
@@ -116,4 +145,6 @@ class Board(
         if (key.first !in 1..8 || key.second !in 1..8)
             throw IllegalArgumentException("Piece not in allowed range")
     }
+
+
 }

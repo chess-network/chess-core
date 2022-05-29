@@ -17,11 +17,11 @@ internal class RookTest: AbstractPieceTest() {
         val actions = rook.availableActions()
         assertEquals(14, actions.size)
 
-        assertTrue(actions.contains(Action(rook.position, 3 to 2, ActionType.MOVE )))
-        assertTrue(actions.contains(Action(rook.position, 3 to 7, ActionType.MOVE )))
+        assertTrue(actions.contains(Action(rook.position, 3 to 2, ActionType.MOVE)))
+        assertTrue(actions.contains(Action(rook.position, 3 to 7, ActionType.MOVE)))
 
-        assertTrue(actions.contains(Action(rook.position, 6 to 4, ActionType.MOVE )))
-        assertTrue(actions.contains(Action(rook.position, 1 to 4, ActionType.MOVE )))
+        assertTrue(actions.contains(Action(rook.position, 6 to 4, ActionType.MOVE)))
+        assertTrue(actions.contains(Action(rook.position, 1 to 4, ActionType.MOVE)))
     }
 
     @Test

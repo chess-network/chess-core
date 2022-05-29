@@ -37,20 +37,20 @@ class King(
 
     private fun checkForDanger(action: Action): Action? {
         if(action.type == ActionType.CAPTURE){
-            board.remove(action.toPosition , action.target)
+            board.remove(action.toPosition , action.targetPiece)
         }
         for(x in 1..8) {
             for(y in 1..8 ){
                 if(board[x to y]?.color != color && board[x to y]?.availableActions()?.any { it.toPosition == action.toPosition } == true){
                     if(action.type == ActionType.CAPTURE){
-                        action.target?.let { board.put(action.toPosition , it) }
+                        action.targetPiece?.let { board.put(action.toPosition , it) }
                     }
                     return null
                 }
             }
         }
         if(action.type == ActionType.CAPTURE){
-            action.target?.let { board.put(action.toPosition , it) }
+            action.targetPiece?.let { board.put(action.toPosition , it) }
         }
         return action
     }

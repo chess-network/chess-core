@@ -6,11 +6,4 @@ enum class ActionType(val code: String) {
     CASTLING("CS"),
     EN_PASSANT("EP"),
     PROMOTION("PR");
-
-    companion object{
-        fun codeToActionType(code: String): ActionType {
-            return values().first { it.code == code }
-        }
-    }
-
 }
