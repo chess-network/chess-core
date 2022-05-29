@@ -9,6 +9,9 @@ class Game(val board: Board, private val whitePlayer: Player, private val blackP
     private val events: MutableList<Event> = mutableListOf()
     lateinit var currentPlayer: Player
 
+    var halfMoves = 0
+    var fullMoves = 1
+
     fun startConsoleGame(){
         init()
         while (true) {
@@ -46,6 +49,9 @@ class Game(val board: Board, private val whitePlayer: Player, private val blackP
         val to = Pair(Integer.parseInt(toStr[0].toString()), Integer.parseInt(toStr[1].toString()))
         val type = ActionType.values().firstOrNull { it.code == typeStr } ?: throw IllegalArgumentException("Invalid action type")
         val causePiece = board[from] ?: throw IllegalArgumentException("Piece not found")
+        if(causePiece.color != currentPlayer.color) throw IllegalArgumentException("Wrong player")
+
+
         val targetPiece =   if(targetPiecePositionStr != null){
             val targetPiecePosition = Pair(Integer.parseInt(targetPiecePositionStr[0].toString()), Integer.parseInt(targetPiecePositionStr[1].toString()))
             board[targetPiecePosition] ?: throw IllegalArgumentException("Piece not found")
@@ -55,6 +61,12 @@ class Game(val board: Board, private val whitePlayer: Player, private val blackP
         }
         val action = Action(from, to, type, targetPiece)
         causePiece.executeAction(action)
+        if(action.type == ActionType.CAPTURE ||  causePiece is Pawn){
+            halfMoves = 0
+        }
+        else{
+            halfMoves++
+        }
         events.add(Event(causePiece, action))
     }
 
@@ -110,6 +122,7 @@ class Game(val board: Board, private val whitePlayer: Player, private val blackP
         if(!CanCastling){
             fen += "-"
         }
+        fen += " $halfMoves $fullMoves"
 
         return fen
 
@@ -120,6 +133,7 @@ class Game(val board: Board, private val whitePlayer: Player, private val blackP
             whitePlayer.canMove = false
             blackPlayer.canMove = true
             currentPlayer = blackPlayer
+            fullMoves++
         }else{
             whitePlayer.canMove = true
             blackPlayer.canMove = false
