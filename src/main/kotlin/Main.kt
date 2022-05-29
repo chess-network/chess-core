@@ -1,14 +1,17 @@
+import net.chess.engine.Client
+import net.chess.enums.PieceColor
 import net.chess.game.Board
-import net.chess.game.ChessGame
+import net.chess.game.Game
+import net.chess.game.Player
+import java.util.function.Function.identity
 
 fun main(args: Array<String>) {
     val board = Board()
 
-    val chessGame = ChessGame(board)
-    chessGame.init()
-    chessGame.executeAction("1214MV")
-    chessGame.executeAction("2725MV")
-    chessGame.executeAction("1425CP25")
+    val game = Game(board, Player(PieceColor.WHITE, "Dito"), Player(PieceColor.BLACK, "BOT"))
+    game.init()
+  //  game.startConsoleGame()
 
-    board.print()
+    println(game.convertToFEN())
+
 }

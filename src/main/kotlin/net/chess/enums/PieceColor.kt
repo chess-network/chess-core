@@ -1,6 +1,6 @@
 package net.chess.enums
 
 enum class PieceColor(val code: String) {
-    WHITE("W"),
-    BLACK("B")
+    WHITE("w"),
+    BLACK("b")
 }

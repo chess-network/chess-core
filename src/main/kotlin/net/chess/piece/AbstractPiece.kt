@@ -40,7 +40,13 @@ abstract class AbstractPiece(
     }
 
 
-    val code: String = "${color.code}${type.code}"
+    val code: String =
+         if(color == PieceColor.WHITE)
+             type.code.uppercase()
+        else
+            type.code
+
+
 
 
     fun checkMove(pair: Pair<Int, Int>): Action? {
