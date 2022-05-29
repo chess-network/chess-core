@@ -50,6 +50,7 @@ class Pawn(
 
 
     override fun availableActions(): List<Action> {
+
         val moves = (if (actions.isEmpty())
             listOfNotNull(move(position, color), doubleMove(position, color))
         else
@@ -67,41 +68,19 @@ class Pawn(
             else
                 emptyList()
         }
-
-
-        //En Passant Pre Condition (0 - left   piece capture  | 1 - right piece capture) (2 - left Top/Bottom exist | 3 - right  Top/Bottom exist)
-        val passantList = if (color == PieceColor.WHITE && position.second == 5)
-            listOf(
-                (position.first - 1) to 5,
-                (position.first + 1) to 5,
-                (position.first - 1) to 6,
-                (position.first + 1) to 6
-            )
-        else if (color == PieceColor.BLACK && position.second == 4)
-            listOf(
-                (position.first - 1) to 4,
-                (position.first + 1) to 4,
-                (position.first - 1) to 3,
-                (position.first + 1) to 3
-            )
+        val enPassantTarget = board.enPassantTarget
+         val enPassant =    if(enPassantTarget != null &&
+            enPassantTarget.color != color &&
+            enPassantTarget.position.second == position.second &&
+            enPassantTarget.position.first - position.first == 1
+        ){
+           val toPosition = if(color == PieceColor.WHITE)
+               Pair(enPassantTarget.position.first + 1, enPassantTarget.position.second)
+           else
+               Pair(enPassantTarget.position.first - 1, enPassantTarget.position.second)
+            listOf(Action(this.position, toPosition, ActionType.EN_PASSANT, enPassantTarget))
+        }
         else emptyList()
-
-        val enPassant = if (passantList.isNotEmpty()) {
-            val leftPiece = board[passantList[0]]
-            val rightPiece = board[passantList[1]]
-
-            val leftPassant =
-                if (leftPiece is Pawn && !board.containsKey(passantList[2]) && leftPiece.actions.size == 1)
-                    Action(this.position, passantList[2], ActionType.EN_PASSANT)
-                else null
-
-            val rightPassant =
-                if (rightPiece != null && !board.containsKey(passantList[3]) && rightPiece.actions.size == 1)
-                    Action(this.position, passantList[3], ActionType.EN_PASSANT)
-                else null
-
-            listOfNotNull(leftPassant, rightPassant)
-        } else emptyList()
 
 
         val promotionCondition =

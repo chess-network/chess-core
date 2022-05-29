@@ -4,10 +4,11 @@ import net.chess.enums.ActionType
 import net.chess.enums.PieceColor.*
 import net.chess.piece.*
 
-class Game(val board: Board, private val whitePlayer: Player, private val blackPlayer: Player) {
+class Game(private val whitePlayer: Player, private val blackPlayer: Player) {
 
     private val events: MutableList<Event> = mutableListOf()
     lateinit var currentPlayer: Player
+    lateinit var board: Board
 
     var halfMoves = 0
     var fullMoves = 1
@@ -33,6 +34,11 @@ class Game(val board: Board, private val whitePlayer: Player, private val blackP
             }
 
         }
+    }
+
+    //TODO add
+    fun load(FEN: String){
+        board = Board()
 
 
     }
@@ -75,7 +81,7 @@ class Game(val board: Board, private val whitePlayer: Player, private val blackP
         var fen = ""
         var emptyCount = 0
         for(i in 8 downTo 1) {
-            for (j in 8 downTo 1) {
+            for (j in 1..8) {
                 val code = board[j to i]?.code
                 if(code == null) emptyCount++
                 else if(emptyCount == 0) fen += code
@@ -122,6 +128,14 @@ class Game(val board: Board, private val whitePlayer: Player, private val blackP
         if(!CanCastling){
             fen += "-"
         }
+        fen += " "
+        fen += if(board.enPassantTarget != null){
+            board.enPassantTarget!!.positionCode
+        } else{
+            "-"
+        }
+
+
         fen += " $halfMoves $fullMoves"
 
         return fen
@@ -148,6 +162,7 @@ class Game(val board: Board, private val whitePlayer: Player, private val blackP
     fun init(){
         if(blackPlayer.color != BLACK || whitePlayer.color != WHITE) throw IllegalArgumentException("Invalid player color")
 
+        board = Board()
         whitePlayer.canMove = true
         currentPlayer = whitePlayer
 
@@ -156,8 +171,8 @@ class Game(val board: Board, private val whitePlayer: Player, private val blackP
             board[1 to i] = Rook(color, 1 to i, board)
             board[2 to i] = Knight(color, 2 to i, board)
             board[3 to i] = Bishop(color, 3 to i, board)
-            board[4 to i] = King(color, 4 to i, board)
-            board[5 to i] = Queen(color, 5 to i, board)
+            board[4 to i] = Queen(color, 4 to i, board)
+            board[5 to i] = King(color, 5 to i, board)
             board[6 to i] = Bishop(color, 6 to i, board)
             board[7 to i] = Knight(color, 7 to i, board)
             board[8 to i] = Rook(color, 8 to i, board)

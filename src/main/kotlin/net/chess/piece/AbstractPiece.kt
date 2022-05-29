@@ -45,7 +45,7 @@ abstract class AbstractPiece(
              type.code.uppercase()
         else
             type.code
-
+    val positionCode = "${Char(96 + position.first)}${position.second}"
 
 
 

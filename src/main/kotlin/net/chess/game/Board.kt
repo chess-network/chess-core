@@ -4,15 +4,26 @@ import net.chess.enums.ActionType
 import net.chess.enums.PieceColor
 import net.chess.piece.AbstractPiece
 import net.chess.enums.PieceType
+import net.chess.piece.Pawn
+
 import java.util.*
+import kotlin.math.abs
 
 class Board : Hashtable<Pair<Int, Int>, AbstractPiece>() {
+
+
+
+
 
 
     private var onPutFun: (key: Pair<Int, Int>, value: AbstractPiece) -> (Unit) = { _, _ -> }
     private var onMoveFun: (from: Pair<Int, Int>, to: Pair<Int, Int>, value: AbstractPiece) -> (Unit) = { _, _, _ -> }
     private var onRemoveFun: (key: Pair<Int, Int>, value: AbstractPiece) -> (Unit) = { _, _ -> }
     private var onActionFun: (key: Pair<Int, Int>, value: AbstractPiece, action: Action) -> (Unit) = { _, _, _ -> }
+
+    var enPassantTarget: AbstractPiece? = null
+        private set
+
     fun onMove(onMove: (from: Pair<Int, Int>, to: Pair<Int, Int>, value: AbstractPiece) -> (Unit)) {
         onMoveFun = onMove
     }
@@ -47,9 +58,16 @@ class Board : Hashtable<Pair<Int, Int>, AbstractPiece>() {
         val key = action.fromPosition
 
         val piece = this[key] ?: throw IllegalArgumentException("No piece on square $key")
-
+        enPassantTarget = null
         when (action.type) {
-            ActionType.MOVE, ActionType.CASTLING -> move(action.fromPosition, action.toPosition)
+             ActionType.CASTLING -> move(action.fromPosition, action.toPosition)
+            ActionType.MOVE -> {
+                if(piece is Pawn && abs(action.fromPosition.second - action.toPosition.second) == 2) {
+                    enPassantTarget = piece
+                }
+                move(action.fromPosition, action.toPosition)
+
+            }
             ActionType.CAPTURE, ActionType.EN_PASSANT -> {
                 if (action.targetPiece == null) throw IllegalArgumentException("No target piece")
                 remove(action.targetPiece.position)
@@ -83,7 +101,7 @@ class Board : Hashtable<Pair<Int, Int>, AbstractPiece>() {
 
                 val piece = this[j to i]
 
-                val block = (piece?.code ?: "   ") + " "
+                val block = "  "  + (piece?.code ?: " ") +" "
 
 
                 print("|$block")
