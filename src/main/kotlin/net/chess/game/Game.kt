@@ -1,7 +1,9 @@
 package net.chess.game
 
 import net.chess.enums.ActionType
+import net.chess.enums.PieceColor
 import net.chess.enums.PieceColor.*
+import net.chess.enums.PieceType
 import net.chess.piece.*
 
 class Game(private val whitePlayer: Player, private val blackPlayer: Player) {
@@ -39,10 +41,50 @@ class Game(private val whitePlayer: Player, private val blackPlayer: Player) {
     //TODO add
     fun load(FEN: String){
         board = Board()
+        val split: List<String> = FEN.split(" ")
+        val positionString: String = split.first()
+        val positionsList: List<String> = positionString.split("/")
+        var currentRow=8;
+        positionsList.forEach { s->
 
+            var lastPos=1
+            for(i in s.indices){
+                if(s[i].isDigit()){
 
+                    lastPos+=s[i].digitToInt()
+                }else{
+
+                    val piece =
+                        if (s[i].isUpperCase())
+                            getFigure(s[i].lowercase(), board, WHITE, Pair(lastPos, currentRow))
+                        else
+                            getFigure(s[i].lowercase(), board, BLACK, Pair(lastPos, currentRow))
+                    board[lastPos to currentRow]=piece;
+                    lastPos++;
+                }
+            }
+            currentRow--;
+        }
+        currentPlayer =if(split[1]=="w")  whitePlayer else blackPlayer;
+        val enPessantPos = split[3]
+        if(enPessantPos !="-"){
+          board.enPassantTarget=board[Pair(enPessantPos[1].digitToInt()-1 , enPessantPos[0].code-96)]
+        }
+
+        halfMoves= split[4].toInt();
+        fullMoves= split[5].toInt();
     }
-
+    fun getFigure (figure:String,board: Board,color:PieceColor,position:Pair<Int,Int>):AbstractPiece?{
+      return when(figure){
+            PieceType.BISHOP.code ->Bishop(color,position,board)
+            PieceType.PAWN.code ->Pawn(color,position,board)
+            PieceType.KNIGHT.code ->Knight(color,position,board)
+            PieceType.ROOK.code ->Rook(color,position,board)
+            PieceType.QUEEN.code ->Queen(color,position,board)
+            PieceType.KING.code ->King(color,position,board)
+          else -> null;
+      }
+    }
 
     fun executeAction(actionCode: String){
         if(actionCode.length != 6 && actionCode.length != 8) throw IllegalArgumentException("Invalid action code")

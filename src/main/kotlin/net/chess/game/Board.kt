@@ -22,7 +22,7 @@ class Board : Hashtable<Pair<Int, Int>, AbstractPiece>() {
     private var onActionFun: (key: Pair<Int, Int>, value: AbstractPiece, action: Action) -> (Unit) = { _, _, _ -> }
 
     var enPassantTarget: AbstractPiece? = null
-        private set
+
 
     fun onMove(onMove: (from: Pair<Int, Int>, to: Pair<Int, Int>, value: AbstractPiece) -> (Unit)) {
         onMoveFun = onMove
